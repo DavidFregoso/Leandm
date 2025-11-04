@@ -1,45 +1,34 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-const calendlyUrl = import.meta.env.VITE_CALENDLY_URL;
-
 const Hero = () => {
+  const calendlyUrl = useMemo(() => import.meta.env.VITE_CALENDLY_URL || '#', []);
+
   return (
-    <section className="bg-muted">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 flex flex-col lg:flex-row items-center gap-12">
-        <div className="flex-1">
-          <h1 className="text-4xl lg:text-5xl font-bold text-primary leading-tight">
-            Detecta problemas antes de que cuesten dinero: registra tiempos muertos y calcula tu OEE en tiempo real.
-          </h1>
-          <p className="text-lg text-text mt-6 max-w-2xl">
-            LEAN DATA MANAGER centraliza capturas en kioskos, conecta con tu ERP y te da tableros listos para decidir.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
-            <a
-              href={calendlyUrl ?? '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-secondary text-white font-semibold shadow-sm transition hover:bg-secondary/90"
-            >
-              Agendar demo
-            </a>
-            <Link
-              to="/checklist"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-primary text-primary font-semibold hover:bg-primary/10 transition"
-            >
-              Descargar checklist OEE
-            </Link>
-          </div>
-        </div>
-        <div className="flex-1 w-full">
-          <div className="bg-white shadow-xl rounded-3xl p-8 border border-muted/60">
-            <p className="text-sm uppercase tracking-wider text-primary font-semibold">Mecanismo único</p>
-            <h2 className="mt-4 text-2xl font-semibold text-text">
-              Kioskos en planta + trazabilidad automática + dashboards en vivo.
-            </h2>
-            <p className="mt-4 text-text/80">
-              Captura en piso sin fricción, vincula operadores al instante y visualiza métricas accionables en segundos.
-            </p>
-          </div>
+    <section id="hero" className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 py-20 text-center">
+        <p className="rounded-full border border-sky-500/40 bg-sky-500/10 px-4 py-1 text-xs uppercase tracking-[0.2em] text-sky-200">
+          Lean Data Manager
+        </p>
+        <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          ¿Quieres ahorrar en líneas de producción?
+        </h1>
+        <p className="max-w-2xl text-lg text-slate-200">
+          ¿Quieres ahorrar dinero en la toma de decisiones? LDM registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero.
+        </p>
+        <div className="flex flex-col gap-4 sm:flex-row">
+          <a
+            href={calendlyUrl}
+            className="inline-flex items-center justify-center rounded-md bg-sky-500 px-6 py-3 font-semibold text-slate-950 transition hover:bg-sky-400"
+          >
+            Agendar demo
+          </a>
+          <Link
+            to="/checklist"
+            className="inline-flex items-center justify-center rounded-md border border-slate-700 px-6 py-3 font-semibold text-slate-100 transition hover:border-sky-400 hover:text-sky-300"
+          >
+            Descargar checklist OEE
+          </Link>
         </div>
       </div>
     </section>

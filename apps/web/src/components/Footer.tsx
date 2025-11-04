@@ -2,21 +2,26 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-6 md:flex-row md:items-center md:justify-between text-sm">
+    <footer className="border-t border-slate-800 bg-slate-950">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="font-semibold">LEAN DATA MANAGER</p>
-          <p className="mt-2 opacity-80">© {new Date().getFullYear()} Todos los derechos reservados.</p>
+          <p className="font-semibold text-slate-200">Lean Data Manager</p>
+          <p>
+            Contacto: <a href="mailto:hola@leandm.dev" className="text-sky-300">hola@leandm.dev</a>
+          </p>
         </div>
-        <div className="flex gap-4">
-          <Link to="/privacy" className="underline-offset-2 hover:underline">
-            Aviso de Privacidad
+        <div className="flex flex-wrap gap-4">
+          <Link to="/privacy" className="hover:text-sky-300">
+            Aviso de privacidad
           </Link>
-          <Link to="/terms" className="underline-offset-2 hover:underline">
-            Términos y Condiciones
+          <Link to="/terms" className="hover:text-sky-300">
+            Términos y condiciones
           </Link>
+          <a href="https://www.linkedin.com/company/redycom/" target="_blank" rel="noreferrer" className="hover:text-sky-300">
+            LinkedIn
+          </a>
         </div>
-        <p className="text-xs uppercase tracking-wider">Powered by Redycom S.A. de C.V.</p>
+        <p className="text-xs uppercase tracking-wide text-slate-500">Powered by Redycom S.A. de C.V.</p>
       </div>
     </footer>
   );
