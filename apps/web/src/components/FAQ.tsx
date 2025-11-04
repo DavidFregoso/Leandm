@@ -1,53 +1,33 @@
-import { useState } from 'react';
-
-const questions = [
+const faqs = [
   {
-    question: '¿Es LEAN DATA MANAGER para mi empresa?',
+    question: '¿Es para mi empresa?',
     answer:
-      'Ideal si facturas más de 10M MXN al mes, operas líneas de producción, gestionas estándares como ISO9001 y ya cuentas con un ERP que necesitas alimentar con datos confiables.'
+      'Si tienes líneas de producción con operadores, turnos y retos de calidad o desperdicio, Lean Data Manager se adapta para darte datos en tiempo real y decisiones accionables.',
   },
   {
-    question: '¿Esto reemplaza a mi ERP?',
+    question: '¿Reemplaza ERP?',
     answer:
-      'No, lo complementa. LEAN DATA MANAGER captura eventos de piso, los normaliza y los integra con tu ERP para que tus procesos administrativos y financieros reflejen lo que sucede en planta en tiempo real.'
+      'LDM complementa tu ERP capturando lo que sucede en el piso. Integraremos tus datos actuales para que la planeación y el ERP reciban información confiable sin cambiar procesos administrativos.',
   },
   {
-    question: '¿Qué tan difícil es para los operadores usarlo?',
+    question: '¿Dificultad para operadores?',
     answer:
-      'Es muy intuitivo. El operador no necesita iniciar sesión: selecciona su rol de turno y captura en kioskos táctiles con flujos guiados. En minutos adoptan la herramienta y elevan la disciplina operativa.'
-  }
+      'Diseñamos kioskos táctiles y flujos guiados para que tus operadores registren en segundos sin capacitación extensa. Roles por turno eliminan contraseñas y mantienen la trazabilidad.',
+  },
 ];
 
 const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
-
   return (
-    <section className="py-16 lg:py-24 bg-white">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-primary">Preguntas Frecuentes</h2>
-        <div className="mt-8 divide-y divide-muted border border-muted rounded-2xl bg-white">
-          {questions.map((item, index) => {
-            const isOpen = activeIndex === index;
-            return (
-              <div key={item.question}>
-                <button
-                  className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
-                  onClick={() => setActiveIndex(isOpen ? null : index)}
-                  aria-expanded={isOpen}
-                >
-                  <span className="text-lg font-semibold text-text">{item.question}</span>
-                  <span className="text-secondary text-2xl" aria-hidden="true">
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </button>
-                {isOpen && (
-                  <div className="px-6 pb-6 text-text/80">
-                    <p>{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+    <section id="faq" className="bg-slate-950">
+      <div className="mx-auto max-w-4xl px-4 py-20">
+        <h2 className="text-3xl font-bold text-center text-white">Preguntas frecuentes</h2>
+        <div className="mt-10 space-y-6">
+          {faqs.map((faq) => (
+            <details key={faq.question} className="rounded-xl border border-slate-800 bg-slate-900/70 p-6">
+              <summary className="cursor-pointer text-lg font-semibold text-white">{faq.question}</summary>
+              <p className="mt-4 text-slate-300">{faq.answer}</p>
+            </details>
+          ))}
         </div>
       </div>
     </section>

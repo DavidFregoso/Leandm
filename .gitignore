@@ -4,3 +4,10 @@ dist
 .env
 lambda.zip
 infra/terraform/lambda.zip
+# Ignore binary assets replaced outside PRs
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.ico
+*.webp

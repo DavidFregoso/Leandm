@@ -1,18 +1,36 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CookieBanner from './components/CookieBanner';
-import Home from './routes/Home';
-import Checklist from './routes/Checklist';
-import Thanks from './routes/Thanks';
-import Privacy from './routes/Privacy';
-import Terms from './routes/Terms';
+import Home from './pages/Home';
+import Checklist from './pages/Checklist';
+import Thanks from './pages/Thanks';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 
-function App() {
+const AnalyticsListener = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', {
+        page_path: location.pathname,
+        page_location: `${window.location.origin}${window.location.hash}`,
+      });
+    }
+  }, [location]);
+
+  return null;
+};
+
+const App = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-background text-text">
+    <div className="min-h-screen bg-slate-950 text-slate-50">
+      <AnalyticsListener />
+      <CookieBanner />
       <Header />
-      <main className="flex-1">
+      <main className="pb-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/checklist" element={<Checklist />} />
@@ -22,9 +40,8 @@ function App() {
         </Routes>
       </main>
       <Footer />
-      <CookieBanner />
     </div>
   );
-}
+};
 
 export default App;

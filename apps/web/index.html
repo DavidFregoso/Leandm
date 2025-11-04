@@ -1,37 +1,55 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LEAN DATA MANAGER | OEE en Tiempo Real</title>
-    <meta
-      name="description"
-      content="Calcula tu OEE en tiempo real, captura datos de piso y toma decisiones informadas con LEAN DATA MANAGER."
-    />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <meta property="og:title" content="LEAN DATA MANAGER | OEE en Tiempo Real" />
-    <meta
-      property="og:description"
-      content="Implementa kioskos en planta, captura estructurada y dashboards OEE con un solo stack."
-    />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/Leandm/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lean Data Manager | Optimiza tu producción en tiempo real</title>
+    <meta name="description" content="Lean Data Manager registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero." />
+    <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://davidfregoso.github.io/Leandm/" />
-    <meta property="og:image" content="https://leandm.dev/og-image.webp" />
+    <meta property="og:title" content="Lean Data Manager | Optimiza tu producción en tiempo real" />
+    <meta property="og:description" content="Lean Data Manager registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero." />
+    <meta property="og:image" content="/Leandm/og-image.svg" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:locale" content="es_MX" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LEAN DATA MANAGER | OEE en Tiempo Real" />
-    <meta
-      name="twitter:description"
-      content="Optimiza la operación con datos en tiempo real y dashboards accionables."
-    />
-    <meta name="twitter:image" content="https://leandm.dev/og-image.webp" />
+    <meta name="twitter:title" content="Lean Data Manager | Optimiza tu producción en tiempo real" />
+    <meta name="twitter:description" content="Lean Data Manager registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero." />
+    <meta name="twitter:image" content="/Leandm/og-image.svg" />
+    <script>
+      const gaId = '%VITE_GA4_ID%';
+      if (gaId) {
+        const gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(gaScript);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){window.dataLayer.push(arguments);} // eslint-disable-line
+        window.gtag = window.gtag || gtag;
+        gtag('js', new Date());
+        gtag('config', gaId, { send_page_view: true });
+      }
+      const clarityId = '%VITE_CLARITY_ID%';
+      if (clarityId) {
+        (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, 'clarity', 'script', clarityId);
+      }
+      const cfToken = '%VITE_CF_WEB_ANALYTICS_TOKEN%';
+      if (cfToken) {
+        const cfScript = document.createElement('script');
+        cfScript.defer = true;
+        cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        cfScript.setAttribute('data-cf-beacon', JSON.stringify({ token: cfToken }));
+        document.head.appendChild(cfScript);
+      }
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
-  <body class="font-sans bg-white text-text">
+  <body class="bg-slate-950 text-slate-50">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

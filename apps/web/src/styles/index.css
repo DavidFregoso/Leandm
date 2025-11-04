@@ -1,24 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  color-scheme: light dark;
+}
+
 body {
-  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background-color: #FFFFFF;
-  color: #2E2E2E;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  @apply text-sky-300 underline-offset-4 transition hover:text-sky-200;
 }
 
-a:focus-visible,
 button:focus-visible,
 input:focus-visible,
+select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #00B3B3;
-  outline-offset: 2px;
+  @apply outline-none ring-2 ring-sky-400 ring-offset-2 ring-offset-slate-950;
 }

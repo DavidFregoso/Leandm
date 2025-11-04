@@ -1,49 +1,67 @@
-# Leandm
+# Lean Data Manager Landing
 
-Frontend React + Vite + TypeScript ubicado en `apps/web` y preparado para desplegarse en GitHub Pages en [`https://davidfregoso.github.io/Leandm/`](https://davidfregoso.github.io/Leandm/).
+Landing page y mini-funnel para Lean Data Manager (leandm.dev) construida con React, Vite, TypeScript y Tailwind CSS.
 
-## Tecnologías
+## Características principales
 
-- [React](https://react.dev/) 18
-- [Vite](https://vitejs.dev/) con configuración específica para `gh-pages`
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [React Router](https://reactrouter.com/) usando `HashRouter` para evitar errores 404 al refrescar
+- Router con `HashRouter` para despliegue sin errores 404 en GitHub Pages.
+- Scripts listos para GitHub Pages y migración posterior a AWS S3 + CloudFront con Object Access Control (OAC).
+- Formularios conectados a Formspree y protegidos con Cloudflare Turnstile.
+- Integraciones de analítica: Google Analytics 4, Microsoft Clarity y Cloudflare Web Analytics.
+- Recursos de SEO (robots, sitemap, metadatos OG/Twitter) y lead magnet descargable.
+- Copia comercial incluida con bloque de “Acciones inmediatas” y CTA repetido.
 
-## Scripts disponibles (apps/web)
+## Requerimientos
 
-- `npm run dev`: modo desarrollo en `http://localhost:5173`
-- `npm run build`: build estándar
-- `npm run build:gh`: build con `base` ajustado a `/Leandm/`
-- `npm run preview`: vista previa del build
-- `npm run lint`: linting de archivos `.ts` y `.tsx`
+- Node.js 18+ (se recomienda la versión LTS más reciente).
 
-## GH Pages (Actions)
+## Variables de entorno
 
-En Settings → Pages: Source = GitHub Actions.
+Crea un archivo `.env` en `apps/web` basado en `.env.example` ubicado en la raíz del repositorio.
 
-Commit/push a main.
+```bash
+cp .env.example apps/web/.env
+```
 
-Verifica Actions → pages build and deployment (debe compilar apps/web, subir artifact apps/web/dist y desplegar).
+Completa los valores para Formspree, Cloudflare Turnstile, analítica, Calendly y URL del sitio.
 
-Abre https://davidfregoso.github.io/Leandm/ (debe cargar assets/*.js bajo /Leandm/ y no /src/main.tsx).
+## Desarrollo local
 
-### ¿Por qué fallaba antes?
+```bash
+cd apps/web
+npm install
+npm run dev
+```
 
-El workflow automático invocaba actions/jekyll-build-pages y buscaba /docs → error Jekyll/SCSS.
+La aplicación estará disponible en `http://localhost:5173`.
 
-setup-node con cache: npm esperaba un lock file → error “Dependencies lock file is not found”.
+## Deploy en GitHub Pages (Actions)
 
-### Soluciones aplicadas
+1. Abre **Settings → Pages** y selecciona `GitHub Actions` como fuente.
+2. Haz push a la rama `main` con los cambios.
+3. Revisa **Actions → pages build and deployment** para confirmar el despliegue.
+4. Accede a `https://davidfregoso.github.io/Leandm/` cuando finalice.
 
-Publicación por artifact con deploy-pages (sin Jekyll) + .nojekyll.
+Si un deploy previo falló por Jekyll o compilaciones SCSS, esta configuración usa GitHub Actions con artifact estático (sin `jekyll-build-pages`). El script `scripts/prepare-pages.cjs` genera `404.html` y `.nojekyll` en `dist/` automáticamente.
 
-Instalación resiliente: npm ci si hay lock, npm i si no.
+## Migración a AWS S3 + CloudFront (OAC)
 
-### Resultado esperado
+1. Configura los secretos `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_REGION`, `S3_BUCKET` y opcionalmente `CLOUDFRONT_DISTRIBUTION_ID` en el repositorio.
+2. El workflow `Deploy to AWS S3` compila con `vite build` (base `/`) y sincroniza `apps/web/dist` con el bucket S3.
+3. Para una migración manual ejecuta:
 
-En Actions: “pages build and deployment” pasa; “jekyll-build-pages” ya no aparece.
+```bash
+cd apps/web
+npm install
+npm run build
+cd ../..
+node scripts/prepare-pages.cjs
+aws s3 sync apps/web/dist s3://TU_BUCKET --delete
+```
 
-En el navegador: sin GET /src/main.tsx 404; ahora se cargan GET /Leandm/assets/*.js.
+4. Configura CloudFront con fallback 403/404 hacia `/index.html`.
+5. Si en el futuro deseas usar `BrowserRouter`, cambia el router en `src/main.tsx` y actualiza la configuración de CloudFront o S3 según tu estrategia de rutas. El frontend no requiere cambios adicionales.
 
-URL final funcionando: https://davidfregoso.github.io/Leandm/.
+## Licencia
+
+Distribuido bajo la licencia MIT. Consulta `LICENSE` para más información.
