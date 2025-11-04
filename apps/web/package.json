@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "build:gh": "vite build --mode gh-pages",
-    "deploy:docs": "node scripts/deploy-docs.cjs",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx"
   },

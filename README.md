@@ -1,6 +1,6 @@
 # Leandm
 
-Proyecto React + Vite + TypeScript con Tailwind CSS preparado para desplegarse en GitHub Pages en la ruta [`https://davidfregoso.github.io/Leandm/`](https://davidfregoso.github.io/Leandm/).
+Frontend React + Vite + TypeScript ubicado en `apps/web` y preparado para desplegarse en GitHub Pages en [`https://davidfregoso.github.io/Leandm/`](https://davidfregoso.github.io/Leandm/).
 
 ## Tecnologías
 
@@ -10,37 +10,40 @@ Proyecto React + Vite + TypeScript con Tailwind CSS preparado para desplegarse e
 - [Tailwind CSS](https://tailwindcss.com/)
 - [React Router](https://reactrouter.com/) usando `HashRouter` para evitar errores 404 al refrescar
 
-## Scripts disponibles
+## Scripts disponibles (apps/web)
 
 - `npm run dev`: modo desarrollo en `http://localhost:5173`
 - `npm run build`: build estándar
 - `npm run build:gh`: build con `base` ajustado a `/Leandm/`
-- `npm run deploy:docs`: copia el contenido de `dist/` a `docs/`, genera `404.html` y `.nojekyll`
 - `npm run preview`: vista previa del build
 - `npm run lint`: linting de archivos `.ts` y `.tsx`
 
-## Despliegue en GitHub Pages
+## GH Pages (Actions)
 
-Sigue los pasos en orden:
+En Settings → Pages: Source = GitHub Actions.
 
-1. `npm i`
-2. `npm run build:gh`
-3. `npm run deploy:docs`
-4. Realiza `git add docs`, `git commit` y `git push`
-5. En GitHub: **Settings → Pages → Deploy from a branch → Branch: `main` / Folder: `/docs`**
+Commit/push a main.
 
-Una vez guardada la configuración, publica el sitio desde [`https://davidfregoso.github.io/Leandm/`](https://davidfregoso.github.io/Leandm/) y fuerza una recarga con `Ctrl+F5` para verificar que los assets se sirvan desde `/Leandm/assets/...`.
+Verifica Actions → pages build and deployment (debe compilar apps/web, subir artifact apps/web/dist y desplegar).
 
-## Estructura de rutas
+Abre https://davidfregoso.github.io/Leandm/ (debe cargar assets/*.js bajo /Leandm/ y no /src/main.tsx).
 
-El `HashRouter` expone las siguientes rutas en el hash de la URL:
+### ¿Por qué fallaba antes?
 
-- `#/` (Home)
-- `#/checklist`
-- `#/thanks`
-- `#/privacy`
-- `#/terms`
+El workflow automático invocaba actions/jekyll-build-pages y buscaba /docs → error Jekyll/SCSS.
 
-## Licencia
+setup-node con cache: npm esperaba un lock file → error “Dependencies lock file is not found”.
 
-Este proyecto se entrega como base para despliegue en GitHub Pages. Ajusta los contenidos y estilos según sea necesario para producción.
+### Soluciones aplicadas
+
+Publicación por artifact con deploy-pages (sin Jekyll) + .nojekyll.
+
+Instalación resiliente: npm ci si hay lock, npm i si no.
+
+### Resultado esperado
+
+En Actions: “pages build and deployment” pasa; “jekyll-build-pages” ya no aparece.
+
+En el navegador: sin GET /src/main.tsx 404; ahora se cargan GET /Leandm/assets/*.js.
+
+URL final funcionando: https://davidfregoso.github.io/Leandm/.
