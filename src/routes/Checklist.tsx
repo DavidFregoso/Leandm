@@ -14,7 +14,7 @@ const Checklist = () => {
         <div className="mt-10 bg-muted/70 border border-muted rounded-2xl p-8 shadow-sm">
           <LeadForm
             leadType="checklist"
-            onSuccess={() => navigate('/gracias?type=checklist', { replace: true })}
+            onSuccess={() => navigate('/thanks?type=checklist', { replace: true })}
           />
         </div>
       </div>

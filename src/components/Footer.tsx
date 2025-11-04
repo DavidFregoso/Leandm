@@ -9,10 +9,10 @@ const Footer = () => {
           <p className="mt-2 opacity-80">© {new Date().getFullYear()} Todos los derechos reservados.</p>
         </div>
         <div className="flex gap-4">
-          <Link to="/privacidad" className="underline-offset-2 hover:underline">
+          <Link to="/privacy" className="underline-offset-2 hover:underline">
             Aviso de Privacidad
           </Link>
-          <Link to="/terminos" className="underline-offset-2 hover:underline">
+          <Link to="/terms" className="underline-offset-2 hover:underline">
             Términos y Condiciones
           </Link>
         </div>

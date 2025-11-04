@@ -6,8 +6,8 @@ import { useCookieConsent } from '../context/CookieConsentContext';
 const navigation = [
   { label: 'Inicio', to: '/' },
   { label: 'Checklist OEE', to: '/checklist' },
-  { label: 'Aviso de Privacidad', to: '/privacidad' },
-  { label: 'Términos y Condiciones', to: '/terminos' }
+  { label: 'Aviso de Privacidad', to: '/privacy' },
+  { label: 'Términos y Condiciones', to: '/terms' }
 ];
 
 interface LayoutProps {
@@ -47,10 +47,10 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <p>© {new Date().getFullYear()} LEAN DATA MANAGER. Todos los derechos reservados.</p>
           <div className="flex space-x-4">
-            <Link to="/privacidad" className="underline-offset-2 hover:underline">
+            <Link to="/privacy" className="underline-offset-2 hover:underline">
               Aviso de Privacidad
             </Link>
-            <Link to="/terminos" className="underline-offset-2 hover:underline">
+            <Link to="/terms" className="underline-offset-2 hover:underline">
               Términos y Condiciones
             </Link>
           </div>
