@@ -42,6 +42,8 @@ La aplicación estará disponible en `http://localhost:5173`.
 3. Revisa **Actions → pages build and deployment** para confirmar el despliegue.
 4. Accede a `https://davidfregoso.github.io/Leandm/` cuando finalice.
 
+El workflow detecta si existe `apps/web/package-lock.json` y solo activa el cache de `actions/setup-node` cuando está presente, evitando el error `Some specified paths were not resolved...`.
+
 Si un deploy previo falló por Jekyll o compilaciones SCSS, esta configuración usa GitHub Actions con artifact estático (sin `jekyll-build-pages`). El script `scripts/prepare-pages.cjs` genera `404.html` y `.nojekyll` en `dist/` automáticamente.
 
 ## Migración a AWS S3 + CloudFront (OAC)

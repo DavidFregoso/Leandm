@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: pages build and deployment
 
 on:
   push:
@@ -11,38 +11,56 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: apps/web/package-lock.json
-
-      - name: Install dependencies
+    defaults:
+      run:
         working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+
+      # Detecta si existe package-lock.json
+      - name: Check lock file
+        id: lock
         run: |
           if [ -f package-lock.json ]; then
-            npm ci
+            echo "has_lock=true" >> $GITHUB_OUTPUT
           else
-            npm install
+            echo "has_lock=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build for GitHub Pages
-        working-directory: apps/web
+      # Setup Node con cache SOLO si hay lock
+      - name: Setup Node (with cache)
+        if: steps.lock.outputs.has_lock == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      # Setup Node sin cache (evita el error “Some specified paths were not resolved…”) 
+      - name: Setup Node (no cache)
+        if: steps.lock.outputs.has_lock != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm i; fi
+
+      - name: Build for GH Pages (Vite gh-pages mode)
         run: npm run build:gh
 
-      - name: Prepare GitHub Pages artifacts
-        run: node scripts/prepare-pages.cjs
+      - name: Prepare 404 and .nojekyll
+        working-directory: .
+        run: |
+          export BUILD_OUTDIR=apps/web/dist
+          node scripts/prepare-pages.cjs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -50,15 +68,12 @@ jobs:
           path: apps/web/dist
 
   deploy:
-    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
+    needs: build
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
