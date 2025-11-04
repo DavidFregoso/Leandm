@@ -1,0 +1,57 @@
+name: Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Acción a ejecutar (plan o apply)'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+          - plan
+          - apply
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      TF_ACTION: ${{ github.event.inputs.action }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Configure Cloudflare credentials
+        run: |
+          echo "cloudflare_api_token = \"${{ secrets.CLOUDFLARE_API_TOKEN }}\"" > infra/terraform/terraform.tfvars
+          echo "cloudflare_account_id = \"${{ secrets.CLOUDFLARE_ACCOUNT_ID }}\"" >> infra/terraform/terraform.tfvars
+          echo "cloudflare_zone_id = \"${{ secrets.CLOUDFLARE_ZONE_ID }}\"" >> infra/terraform/terraform.tfvars
+
+      - name: Terraform Init
+        working-directory: infra/terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        if: env.TF_ACTION == 'plan'
+        working-directory: infra/terraform
+        run: terraform plan
+
+      - name: Terraform Apply
+        if: env.TF_ACTION == 'apply'
+        working-directory: infra/terraform
+        run: terraform apply -auto-approve
