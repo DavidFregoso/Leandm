@@ -1,51 +1,53 @@
 const Privacy = () => {
   return (
-    <div className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-primary">Aviso de Privacidad</h1>
-        <p className="mt-6 text-text/70">
-          Este aviso de privacidad se rige conforme a la legislación mexicana aplicable. Sustituye los textos placeholder antes del despliegue final.
-        </p>
-        <section className="mt-8 space-y-6 text-sm text-text/80 leading-relaxed">
-          <article>
-            <h2 className="text-xl font-semibold text-primary">1. Identidad y domicilio del responsable</h2>
+    <section className="py-16 lg:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <header>
+          <h1 className="text-3xl font-bold text-primary">Aviso de Privacidad</h1>
+          <p className="mt-4 text-text/70">
+            Este aviso es un placeholder profesional. Sustituye el contenido con el documento validado por tu equipo legal.
+          </p>
+        </header>
+        <article className="space-y-6 text-text/80">
+          <section>
+            <h2 className="text-xl font-semibold text-text">1. Responsable</h2>
             <p>
-              LEAN DATA MANAGER, operado por Redycom S.A. de C.V., con domicilio en {/* Inserta domicilio legal */}, es responsable del tratamiento de los datos personales proporcionados por los usuarios.
+              LEAN DATA MANAGER, representado por Redycom S.A. de C.V., es responsable del uso y protección de sus datos personales.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">2. Finalidades del tratamiento</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">2. Finalidades del tratamiento</h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Atender solicitudes de información, demos y materiales descargables.</li>
+              <li>Personalizar propuestas comerciales y soporte postventa.</li>
+              <li>Cumplir con obligaciones contractuales y regulatorias.</li>
+            </ul>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">3. Datos personales recabados</h2>
+            <p>Podemos recabar datos de identificación, contacto, laborales y relacionados con procesos productivos.</p>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">4. Transferencias</h2>
             <p>
-              Los datos personales recopilados se emplearán para dar seguimiento a solicitudes de demostración, compartir materiales informativos, gestionar propuestas comerciales y dar cumplimiento a obligaciones legales.
+              Compartiremos datos únicamente con proveedores que apoyen la operación (por ejemplo, servicios cloud) y siempre con medidas de seguridad adecuadas.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">3. Datos personales recabados</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">5. Derechos ARCO</h2>
             <p>
-              Nombre, empresa, correo electrónico, teléfono y comentarios relacionados con los requerimientos de manufactura. {/* Ajustar según formularios definitivos */}
+              Para ejercer sus derechos de acceso, rectificación, cancelación u oposición, escriba a <strong>privacidad@leandm.dev</strong>.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">4. Mecanismos para revocar consentimiento</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">6. Cambios al aviso</h2>
             <p>
-              Puedes ejercer tus derechos ARCO enviando un correo a {/* Correo de contacto */} con copia de identificación oficial. Se dará respuesta en un plazo máximo de 15 días hábiles.
+              Cualquier actualización se publicará en este sitio web con la fecha de última modificación.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">5. Transferencias y terceros</h2>
-            <p>
-              Compartiremos información únicamente con proveedores tecnológicos necesarios para la operación (AWS, Cloudflare, proveedores de analítica). Se formalizarán acuerdos de confidencialidad y protección de datos.
-            </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">6. Cambios al aviso</h2>
-            <p>
-              Cualquier modificación se comunicará en este sitio web con al menos 5 días hábiles de anticipación. Te invitamos a consultarlo de forma periódica.
-            </p>
-          </article>
-        </section>
+          </section>
+        </article>
       </div>
-    </div>
+    </section>
   );
 };
 

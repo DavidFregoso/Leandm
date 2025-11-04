@@ -1,45 +1,53 @@
 const Terms = () => {
   return (
-    <div className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold text-primary">Términos y Condiciones</h1>
-        <p className="mt-6 text-text/70">
-          Este documento establece los términos aplicables al uso de LEAN DATA MANAGER. Reemplaza los textos placeholder con tu versión final aprobada por asesor legal.
-        </p>
-        <section className="mt-8 space-y-6 text-sm text-text/80 leading-relaxed">
-          <article>
-            <h2 className="text-xl font-semibold text-primary">1. Aceptación</h2>
+    <section className="py-16 lg:py-24">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <header>
+          <h1 className="text-3xl font-bold text-primary">Términos y Condiciones</h1>
+          <p className="mt-4 text-text/70">
+            Documento placeholder. Sustituye por los términos oficiales aprobados por tu área legal antes de publicar.
+          </p>
+        </header>
+        <article className="space-y-6 text-text/80">
+          <section>
+            <h2 className="text-xl font-semibold text-text">1. Aceptación</h2>
             <p>
-              Al acceder a este sitio, aceptas las condiciones establecidas por Redycom S.A. de C.V. {/* Complementa con detalles de aceptación explícita */}
+              Al acceder y utilizar LEAN DATA MANAGER, aceptas estas condiciones y garantizas que tienes autoridad para obligar a tu empresa.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">2. Uso permitido</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">2. Uso permitido</h2>
             <p>
-              El contenido se proporciona con fines informativos sobre la solución LEAN DATA MANAGER. Está prohibido reproducir, distribuir o modificar sin autorización previa por escrito.
+              El servicio se destina a empresas industriales. Está prohibido replicar, sublicenciar o usar la plataforma para actividades ilícitas.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">3. Propiedad intelectual</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">3. Propiedad intelectual</h2>
             <p>
-              Las marcas, logotipos y contenidos son propiedad de Redycom S.A. de C.V. o terceros licenciantes. {/* Sustituye con registro de marca si aplica */}
+              El software, documentación y materiales visuales son propiedad de Redycom S.A. de C.V. y sus licenciantes.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">4. Limitación de responsabilidad</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">4. Limitación de responsabilidad</h2>
             <p>
-              Redycom S.A. de C.V. no será responsable por daños indirectos derivados del uso de la información publicada. {/* Ajustar según lineamientos legales */}
+              El servicio se provee “tal cual”. No somos responsables por pérdidas indirectas derivadas del uso o la imposibilidad de uso de la plataforma.
             </p>
-          </article>
-          <article>
-            <h2 className="text-xl font-semibold text-primary">5. Ley aplicable y jurisdicción</h2>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">5. Facturación y pagos</h2>
             <p>
-              Estos términos se interpretarán conforme a las leyes de México. Cualquier controversia se someterá a los tribunales competentes de {/* Ciudad y estado */}.
+              Las cuotas de implementación y suscripción se detallan en la propuesta comercial. El atraso en pagos puede suspender el acceso.
             </p>
-          </article>
-        </section>
+          </section>
+          <section>
+            <h2 className="text-xl font-semibold text-text">6. Ley aplicable</h2>
+            <p>
+              Este acuerdo se rige por las leyes de los Estados Unidos Mexicanos. Cualquier disputa se someterá a tribunales competentes en la Ciudad de México.
+            </p>
+          </section>
+        </article>
       </div>
-    </div>
+    </section>
   );
 };
 

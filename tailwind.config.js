@@ -4,12 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#003366',
+        primary: '#002A60',
         secondary: '#00B3B3',
-        text: '#2E2E2E'
+        text: '#2E2E2E',
+        background: '#FFFFFF',
+        muted: '#F4F4F4'
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif']
+        sans: ['Poppins', 'system-ui', 'sans-serif']
       }
     }
   },
