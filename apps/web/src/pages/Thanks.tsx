@@ -14,12 +14,16 @@ const Thanks = () => {
       : 'Gracias por tu interés en Lean Data Manager.';
 
   return (
-    <div className="bg-slate-950">
-      <div className="mx-auto max-w-3xl px-4 py-20 text-slate-200">
-        <h1 className="text-3xl font-bold text-white">¡Gracias!</h1>
-        <p className="mt-4 text-slate-300">{message}</p>
-        <p className="mt-6 text-sm text-slate-400">
-          Agrega <a href="mailto:hola@leandm.dev" className="text-sky-300">hola@leandm.dev</a> a tus contactos para que nuestros correos no se pierdan.
+    <div className="bg-white">
+      <div className="mx-auto max-w-3xl px-4 py-20 text-[#2E2E2E]">
+        <h1 className="text-3xl font-bold text-[#003366]">¡Gracias!</h1>
+        <p className="mt-4 text-base leading-relaxed">{message}</p>
+        <p className="mt-6 text-sm text-[#003366]">
+          Agrega{' '}
+          <a href="mailto:hola@leandm.dev" className="underline hover:text-[#00B3B3]">
+            hola@leandm.dev
+          </a>{' '}
+          a tus contactos para que nuestros correos no se pierdan.
         </p>
       </div>
     </div>

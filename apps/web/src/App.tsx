@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
-import Header from './components/Header';
+import { Route, Routes } from 'react-router-dom';
+import Nav from './components/Nav';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import Checklist from './pages/Checklist';
@@ -8,27 +7,11 @@ import Thanks from './pages/Thanks';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 
-const AnalyticsListener = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', 'page_view', {
-        page_path: location.pathname,
-        page_location: `${window.location.origin}${window.location.hash}`,
-      });
-    }
-  }, [location]);
-
-  return null;
-};
-
 const App = () => {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50">
-      <AnalyticsListener />
-      <Header />
-      <main className="pb-16">
+    <div className="flex min-h-screen flex-col bg-white">
+      <Nav />
+      <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/checklist" element={<Checklist />} />
