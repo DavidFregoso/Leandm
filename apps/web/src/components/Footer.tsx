@@ -1,30 +1,31 @@
-import { Link } from 'react-router-dom';
+import React from "react";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="border-t border-slate-800 bg-slate-950">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
-        <div>
-          <p className="font-semibold text-slate-200">Lean Data Manager</p>
-          <p>
-            Contacto: <a href="mailto:hola@leandm.dev" className="text-sky-300">hola@leandm.dev</a>
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <Link to="/privacy" className="hover:text-sky-300">
-            Aviso de privacidad
-          </Link>
-          <Link to="/terms" className="hover:text-sky-300">
-            Términos y condiciones
-          </Link>
-          <a href="https://www.linkedin.com/company/redycom/" target="_blank" rel="noreferrer" className="hover:text-sky-300">
-            LinkedIn
+    <footer className="border-t border-gray-200 mt-12">
+      <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-gray-600 flex flex-col md:flex-row items-center justify-between gap-4">
+        <nav className="flex items-center gap-6">
+          <a href="#/privacy" className="hover:text-gray-900 underline-offset-2 hover:underline">
+            Aviso de Privacidad
           </a>
-        </div>
-        <p className="text-xs uppercase tracking-wide text-slate-500">Powered by Redycom S.A. de C.V.</p>
+          <a href="#/terms" className="hover:text-gray-900 underline-offset-2 hover:underline">
+            Términos y Condiciones
+          </a>
+        </nav>
+
+        <p className="text-center">
+          Powered by{" "}
+          <a
+            href="https://www.redycom.com.mx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-[#003366] hover:underline underline-offset-2"
+            aria-label="Abrir sitio de Redycom S.A. de C.V. en una nueva pestaña"
+          >
+            Redycom S.A. de C.V.
+          </a>
+        </p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
