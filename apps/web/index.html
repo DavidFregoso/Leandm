@@ -11,7 +11,7 @@
     <meta property="og:title" content="Lean Data Manager | Optimiza tu producción en tiempo real" />
     <meta property="og:description" content="Lean Data Manager registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero." />
     <meta property="og:image" content="/Leandm/og-image.svg" />
-    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:url" content="__VITE_SITE_URL__" />
     <meta property="og:locale" content="es_MX" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Lean Data Manager | Optimiza tu producción en tiempo real" />
@@ -30,10 +30,19 @@
           cfScript.remove();
         }
       }
+      const ogUrlMeta = document.querySelector('meta[property=\"og:url\"]');
+      const siteUrl = import.meta.env.VITE_SITE_URL;
+      if (ogUrlMeta) {
+        if (siteUrl) {
+          ogUrlMeta.setAttribute('content', siteUrl);
+        } else {
+          ogUrlMeta.remove();
+        }
+      }
     </script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
-  <body class="bg-slate-950 text-slate-50">
+  <body class="bg-white text-[#2E2E2E]">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

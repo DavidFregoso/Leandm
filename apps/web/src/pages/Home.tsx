@@ -1,33 +1,33 @@
-import ActionsNow from '../components/ActionsNow';
-import FAQ from '../components/FAQ';
 import Hero from '../components/Hero';
+import Problem from '../components/Problem';
+import Solution from '../components/Solution';
+import Differentiator from '../components/Differentiator';
+import Ecosystem from '../components/Ecosystem';
+import Roadmap from '../components/Roadmap';
+import SocialProof from '../components/SocialProof';
+import Pricing from '../components/Pricing';
+import FAQ from '../components/FAQ';
+import FinalCTA from '../components/FinalCTA';
 import LeadForm from '../components/LeadForm';
-import OfferStack from '../components/OfferStack';
-import StorySolution from '../components/StorySolution';
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-white text-[#2E2E2E]">
       <Hero />
-      <ActionsNow />
-      <StorySolution />
-      <OfferStack />
-      <section id="contacto" className="bg-slate-950">
-        <div className="mx-auto max-w-6xl px-4 py-20">
-          <div className="grid gap-12 lg:grid-cols-[2fr,1fr]">
-            <LeadForm />
-            <aside className="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-sm text-slate-300">
-              <h3 className="text-xl font-semibold text-white">¿Por qué decidir hoy?</h3>
-              <ul className="space-y-3">
-                <li>Visualiza pérdidas económicas por línea y turno en minutos.</li>
-                <li>Elimina el papeleo duplicado con registros digitales inmediatos.</li>
-                <li>Prepara a tu planta para integración con sensores, cámaras y ERP.</li>
-              </ul>
-            </aside>
-          </div>
-        </div>
-      </section>
+      <Problem />
+      <Solution />
+      <Differentiator />
+      <Ecosystem />
+      <Roadmap />
+      <SocialProof />
+      <Pricing />
       <FAQ />
+      <div className="bg-[#003366]">
+        <FinalCTA />
+      </div>
+      <div className="bg-slate-100 pb-24">
+        <LeadForm />
+      </div>
     </div>
   );
 };
