@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import CookieBanner from './components/CookieBanner';
 import Home from './pages/Home';
 import Checklist from './pages/Checklist';
 import Thanks from './pages/Thanks';
@@ -28,7 +27,6 @@ const App = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50">
       <AnalyticsListener />
-      <CookieBanner />
       <Header />
       <main className="pb-16">
         <Routes>

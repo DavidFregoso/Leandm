@@ -17,34 +17,18 @@
     <meta name="twitter:title" content="Lean Data Manager | Optimiza tu producción en tiempo real" />
     <meta name="twitter:description" content="Lean Data Manager registra en piso, calcula tu OEE en tiempo real y te muestra dónde estás perdiendo dinero." />
     <meta name="twitter:image" content="/Leandm/og-image.svg" />
-    <script>
-      const gaId = '%VITE_GA4_ID%';
-      if (gaId) {
-        const gaScript = document.createElement('script');
-        gaScript.async = true;
-        gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-        document.head.appendChild(gaScript);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){window.dataLayer.push(arguments);} // eslint-disable-line
-        window.gtag = window.gtag || gtag;
-        gtag('js', new Date());
-        gtag('config', gaId, { send_page_view: true });
-      }
-      const clarityId = '%VITE_CLARITY_ID%';
-      if (clarityId) {
-        (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, 'clarity', 'script', clarityId);
-      }
-      const cfToken = '%VITE_CF_WEB_ANALYTICS_TOKEN%';
-      if (cfToken) {
-        const cfScript = document.createElement('script');
-        cfScript.defer = true;
-        cfScript.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-        cfScript.setAttribute('data-cf-beacon', JSON.stringify({ token: cfToken }));
-        document.head.appendChild(cfScript);
+    <!-- Cloudflare Web Analytics (cookieless) -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token":"__VITE_CF_WEB_ANALYTICS_TOKEN__"}'></script>
+    <script type="module">
+      const cfScript = document.querySelector('script[src="https://static.cloudflareinsights.com/beacon.min.js"]');
+      const cfToken = import.meta.env.VITE_CF_WEB_ANALYTICS_TOKEN;
+      if (cfScript) {
+        if (cfToken) {
+          cfScript.setAttribute('data-cf-beacon', JSON.stringify({ token: cfToken }));
+        } else {
+          cfScript.remove();
+        }
       }
     </script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
